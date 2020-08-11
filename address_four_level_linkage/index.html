@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>地址四级联动</title>
+</head>
+<body>
+<select class="province"></select>
+<select class="city"></select>
+<select class="county"></select>
+<select class="town"></select>
+</body>
+</html>
+<script type="text/javascript" src="../jquery-2.1.4.js"></script>
+<script type="text/javascript" src="./address_info.js"></script>
+<script>
+    $(function () {
+        //获取省份
+        var province = address['86'];
+        var pro_option = '<option value="">请选择</option>';
+        $.each(province, function (i, n) {
+            $.each(n, function (ii, nn) {
+                if (ii == 0) {
+                    pro_option += '<option value="' + nn.code + '">' + i + '&nbsp;&nbsp;' + nn.address + '</option>';
+                } else {
+                    pro_option += '<option value="' + nn.code + '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + nn.address + '</option>';
+                }
+            })
+        })
+        $('.province').html(pro_option);
+        //获取市
+        $('.province').on('change', function () {
+            var this_val = $(this).val();
+            if (this_val) {
+                var city = address[this_val];
+                var city_option = '<option value="">请选择</option>';
+                if (city) {
+                    $.each(city, function (i, n) {
+                        city_option += '<option value="' + i + '">' + n + '</option>';
+                    })
+                }
+                $('.city').html(city_option);
+            }
+        });
+        //获取县
+        $('.city').on('change', function () {
+            var this_val = $(this).val();
+            if (this_val) {
+                var county = address[this_val];
+                var county_option = '<option value="">请选择</option>';
+                if (county) {
+                    $.each(county, function (i, n) {
+                        county_option += '<option value="' + i + '">' + n + '</option>';
+                    })
+                }
+                $('.county').html(county_option);
+            }
+        })
+        //获取乡（镇）
+        $('.county').on('change', function () {
+            var this_val = $(this).val();
+            if (this_val) {
+                var town = address[this_val];
+                var town_option = '<option value="">请选择</option>';
+                if (town) {
+                    $.each(town, function (i, n) {
+                        town_option += '<option value="' + i + '">' + n + '</option>';
+                    })
+                }
+                $('.town').html(town_option);
+            }
+        })
+    })
+</script>
